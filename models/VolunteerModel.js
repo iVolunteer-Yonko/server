@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const VolunteerSchema = new mongoose.Schema(
     {
-        name: String,
+        username: String,
         email: String,
         password: String,
         role: {

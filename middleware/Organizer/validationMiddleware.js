@@ -36,21 +36,35 @@ export const validateSignupCredentials = withValidationErrors([
             }
             return true
         }),
+    body('contactemail')
+        .notEmpty()
+        .withMessage('Please fill the name field')
+        .isEmail()
+        .withMessage('Email format is not valid')
+        .trim(),
     body('password')
         .notEmpty()
         .withMessage('Please fill out the password field')
         .isLength({min:7, max:20})
         .withMessage('Password length should be in the range 7 to 20'),
-    body('confirmpassword')
+    body('confirmPassword')
         .notEmpty()
         .withMessage('Please fill out the confirm password field')
-        .custom((confirmpassword, { req }) => {
+        .custom((confirmPassword, { req }) => {
             console.log(req.body)
-            if (confirmpassword !== req.body.password) {
+            if (confirmPassword !== req.body.password) {
                 throw new BadRequestError('Confirm password does not match password');
             }
             return true
-        })
+        }),
+    body('website')
+        .notEmpty()
+        .withMessage('Please fill the website field')
+        .trim(),
+    body('about')
+        .isLength({min:0, max:200})
+        .withMessage('about length should be in the range 0 to 200')
+        .trim(),
 ])
 
 export const validateLoginCredentials = withValidationErrors([

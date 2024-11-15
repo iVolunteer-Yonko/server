@@ -18,9 +18,9 @@ const withValidationErrors = (validateValues) => {
 };
 
 export const validateSignupCredentials = withValidationErrors([
-    body('name')
+    body('username')
         .notEmpty()
-        .withMessage('Please fill the name field')
+        .withMessage('Please fill the username field')
         .isLength({min:3, max:50})
         .withMessage('Name length must be in the range 3 and 50')
         .trim(),
@@ -41,12 +41,12 @@ export const validateSignupCredentials = withValidationErrors([
         .withMessage('Please fill out the password field')
         .isLength({min:7, max:20})
         .withMessage('Password length should be in the range 7 to 20'),
-    body('confirmpassword')
+    body('confirmPassword')
         .notEmpty()
         .withMessage('Please fill out the confirm password field')
-        .custom((confirmpassword, { req }) => {
+        .custom((confirmPassword, { req }) => {
             console.log(req.body)
-            if (confirmpassword !== req.body.password) {
+            if (confirmPassword !== req.body.password) {
                 throw new BadRequestError('Confirm password does not match password');
             }
             return true
