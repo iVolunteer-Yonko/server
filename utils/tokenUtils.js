@@ -1,15 +1,15 @@
 import jwt from 'jsonwebtoken';
 
 export const createToken = (payload) => {
-    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-        expiresIn: process.env.JWT_EXPIRES_IN
+    const token = jwt.sign(payload, 'secret', {
+        expiresIn: '1d'
     });
     return token;
 };
 
 export const verifyToken = (token) => {
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
+        const decoded = jwt.verify(token, 'secret')
         return decoded
       } catch (error) {
         throw new UnauthenticatedError('Invalid or expired token')

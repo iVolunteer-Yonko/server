@@ -8,6 +8,8 @@ import volunteerAuthRoute from './routes/Volunteer/authRoutes.js'
 import organizerAuthRoute from './routes/Organizer/authRoutes.js'
 import volunteerUserRoute from './routes/Volunteer/userRoutes.js'
 import organizerUserRoute from './routes/Organizer/userRoutes.js'
+import organizerEventRoute from './routes/Organizer/eventRoutes.js'
+
 import 'express-async-errors';
 import cookieParser from 'cookie-parser';
 
@@ -16,9 +18,9 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 
-if(process.env.NODE_ENV == 'development'){
-    app.use(morgan('dev'))
-}
+
+app.use(morgan('dev'))
+
 
 app.get('/home', (req, res) => {
     res.send('hello world')
@@ -28,6 +30,8 @@ app.use('/api/v1/auth', volunteerAuthRoute)
 app.use('/api/v1/auth', organizerAuthRoute)
 app.use('/api/v1/user', volunteerUserRoute)
 app.use('/api/v1/user', organizerUserRoute)
+app.use('/api/v1', organizerEventRoute)
+
 
 // Not found
 app.use('*', (req, res) => {
@@ -37,9 +41,10 @@ app.use('*', (req, res) => {
 // Error
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 5100
+const port = 8000
+
 try{
-    await mongoose.connect(process.env.MONGO_URL)
+    await mongoose.connect('mongodb+srv://Ranish:ranish1234@iVolunteer.5ajfr.mongodb.net/iVolunteer')
     app.listen(port, () => {
     console.log(`server is running on ${port}`)
 })}catch(error){
