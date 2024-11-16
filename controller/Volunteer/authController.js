@@ -5,12 +5,12 @@ import { createToken } from '../../utils/tokenUtils.js';
 
 export const Signup = async (req, res) => {
     try{
-        let { name, email, password, role } = req.body;
+        let { username, email, password, role } = req.body;
       
         const hashedPassword = await hashpassword(password)
         password = hashedPassword
       
-        const organizer = await Volunteer.create({ name, email, password, role });
+        const organizer = await Volunteer.create({ username, email, password, role });
         res.status(201).json({ msg : organizer});
       
     } catch(error) {
