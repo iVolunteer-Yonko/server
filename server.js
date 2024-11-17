@@ -24,18 +24,11 @@ import cookieParser from 'cookie-parser';
 
 // const __dirname = dirname(fileURLToPath(import.meta.url));
 import http from "http";
-import { Server as socketIO } from "socket.io";
+
 const app = express()
-import messagesRoutes from "./routes/messages.js";
-import groupsRoutes from "./routes/groups.js";
 import cors from "cors";
-const server = http.createServer(app);
-const io = new socketIO(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
+
+
 
 
 // app.use(express.static(path.resolve(__dirname, './public')));
@@ -58,24 +51,8 @@ app.use('/api/v1/auth', organizerAuthRoute)
 app.use('/api/v1/user', volunteerUserRoute)
 app.use('/api/v1/user', organizerUserRoute)
 app.use('/api/v1', organizerEventRoute)
-app.use("/api/messages", messagesRoutes);
-app.use("/api/groups", groupsRoutes);
-// Socket.IO setup
-io.on("connection", (socket) => {
-    console.log("New client connected");
-  
-    socket.on("join", (room) => {
-      socket.join(room);
-    });
-  
-    socket.on("message", (data) => {
-      io.to(data.room).emit("message", data);
-    });
-  
-    socket.on("disconnect", () => {
-      console.log("Client disconnected");
-    });
-  });
+
+
   
 // Not found
 app.use('*', (req, res) => {
